@@ -1,55 +1,53 @@
 import streamlit as st
+
 st.title("Приложение")
 
 
 if "books" not in st.session_state:
     st.session_state.books = []
 
-st.header(" Добави книга")
+st.header("Добави книга")
 
 title = st.text_input("Заглавие")
 author = st.text_input("Автор")
 price = st.number_input("Цена", min_value=0.0)
 
 if st.button("Добави книгата"):
-    book = {
-        "title": title,
-        "author": author,
-        "price": price
-    }
-st.session_state.book.append(book)
-st.succes("Книгата е добавена")
+    if title and author:
+        book = {
+            "title": title,
+            "author": author,
+            "price": price
+        }
+        st.session_state.books.append(book)
+        st.success("Книгата е добавена")
+    else:
+        st.warning("Моля, попълнете заглавие и автор.")
 
 if st.button("Покажи всички книги"):
-    
-if len((st.session_state.books) == 0:
-    
-st.write("Няма добавени книги")
-else:
-for book in st.session_state.books :
-st.write("Заглавие", book["title"])
-st.write("Автор", book["author"])
-st.write("Цена", book["price"])
-st.write("------------------")
+    if len(st.session_state.books) == 0:
+        st.write("Няма добавени книги")
+    else:
+        for book in st.session_state.books:
+            st.write("Заглавие:", book["title"])
+            st.write("Автор:", book["author"])
+            st.write("Цена:", book["price"])
+            st.write("------------------")
 
-st.header(" Търсене по автор")
+st.header("Търсене по автор")
 
 search_author = st.text_input("Въведи име на автор")
 
 if st.button("Търси по автор"):
-
     found = False
 
     for book in st.session_state.books:
-        if book["author"] == search_author:
-            st.write(book)
+        if book["author"].lower() == search_author.lower():
+            st.write("Заглавие:", book["title"])
+            st.write("Автор:", book["author"])
+            st.write("Цена:", book["price"])
+            st.write("------------------")
             found = True
 
-    if found == False:
+    if not found:
         st.write("Няма намерени книги от този автор.")
-
-
-
-
-
-
